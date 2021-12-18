@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import {
   View,
@@ -10,6 +10,8 @@ import {
 } from 'react-native'
 
 import { format } from 'date-fns'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import AuthContext from '../config/AuthContext'
 
 const brahma = require('../assets/imgs/brahma.png')
 const skol = require('../assets//imgs/skol.png')
@@ -34,6 +36,8 @@ const MESES = [
 ]
 
 export default function Partida(props) {
+  const { isLogged } = useContext(AuthContext)
+
   const time = time => {
     switch (time) {
       case 'Brahma':
@@ -61,6 +65,11 @@ export default function Partida(props) {
         <Text style={styles.dataTitle}>
           {monthBr(format(props.data, 'dd/MM/yyyy'))}
         </Text>
+        {isLogged ? (
+          <TouchableOpacity style={styles.editButton} onPress={() => {}}>
+            <Ionicons name="ios-settings" size={18} color="#c1c1c1" />
+          </TouchableOpacity>
+        ) : null}
       </View>
 
       <View style={styles.infoPartida}>
@@ -147,6 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   dataPartida: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.80)',
@@ -157,7 +167,13 @@ const styles = StyleSheet.create({
   dataTitle: {
     fontWeight: '700',
     fontSize: 14,
-    color: 'white'
+    color: 'white',
+    textAlign: 'center',
+    flex: 1,
+    marginLeft: 10
+  },
+  editButton: {
+    marginRight: 10
   },
   infoPartida: {
     flexDirection: 'row',

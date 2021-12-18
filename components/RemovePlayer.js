@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 
 import {
   View,
@@ -10,20 +10,22 @@ import {
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import RNPickerSelect from 'react-native-picker-select'
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
+
+import { deleteDoc, doc } from 'firebase/firestore'
 import db from '../config/firebase'
 
-export default function RemovePlayer({ readPlayers, players }) {
+import AuthContext from '../config/AuthContext'
+
+export default function RemovePlayer() {
   const [removePlayer, setRemovePlayer] = useState('')
+  const { listOfPlayers, setPlayers } = useContext(AuthContext)
 
   async function deletePlayer() {
     try {
-      await deleteDoc(doc(db, 'Players', removePlayer.id))
-      readPlayers()
+      await deleteDoc(doc(db, 'Players', removePlayer))
+      setPlayers()
 
-      Alert.alert(
-        `Jogador ${removePlayer.data().jogador} removido com sucesso!`
-      )
+      Alert.alert(`Jogador removido com sucesso!`)
       setRemovePlayer('')
     } catch (e) {
       Alert.alert('Erro ao excluir jogador!')
@@ -36,6 +38,13 @@ export default function RemovePlayer({ readPlayers, players }) {
     value: null,
     color: 'tomato'
   }
+
+  const playersArray = listOfPlayers.map(p => {
+    const jogador = { label: '', value: '' }
+    jogador.label = p.jogador
+    jogador.value = p.id
+    return jogador
+  })
 
   return (
     <View style={styles.container}>
@@ -58,7 +67,7 @@ export default function RemovePlayer({ readPlayers, players }) {
               />
             )
           }}
-          items={players}
+          items={playersArray}
         />
       </View>
 
@@ -113,12 +122,11 @@ const pickerSelectStyles = StyleSheet.create({
     height: 40,
     fontSize: 16,
     paddingHorizontal: 15,
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: '#c1c1c1',
     color: 'black',
     backgroundColor: '#e1e1e1',
     paddingRight: 30, // to ensure the text is never behind the icon
-    paddingVertical: 10,
     justifyContent: 'center'
   },
   inputAndroid: {
@@ -126,12 +134,11 @@ const pickerSelectStyles = StyleSheet.create({
     height: 40,
     fontSize: 16,
     paddingHorizontal: 15,
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: '#c1c1c1',
     color: 'black',
     backgroundColor: '#e1e1e1',
     paddingRight: 30, // to ensure the text is never behind the icon
-    padding: 0,
     justifyContent: 'center'
   }
 })

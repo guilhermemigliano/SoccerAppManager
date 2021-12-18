@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import {
   View,
   Text,
   Modal,
   StyleSheet,
-  Button,
-  Image,
   ScrollView,
   TouchableOpacity,
   ImageBackground,
@@ -20,10 +18,9 @@ import { Audio } from 'expo-av'
 import { collection, addDoc } from 'firebase/firestore'
 import db from '../config/firebase'
 
-import Header from '../components/Header'
+import AuthContext from '../config/AuthContext'
+
 import ListPlayers from '../components/ListPLayers'
-import PickDate from '../components/PickDate'
-import PickTeam from '../components/PickTeam'
 import Placar from '../components/Placar'
 import Jogador from '../components/Jogador'
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -48,6 +45,7 @@ export default function NewMatch(props) {
   const [showTimer, setShowTimer] = useState(false)
   const [sound, setSound] = React.useState()
 
+  const { setMatches } = useContext(AuthContext)
   //const sound = new Sound('../assets/sounds/audio.mp3')
 
   async function playSound() {
@@ -383,7 +381,7 @@ export default function NewMatch(props) {
     setDate(new Date())
     setIsDate(false)
     setShow(false)
-    props.readMatches()
+    setMatches() // Context para atualizar as partidas no Home
     props.closeModal()
   }
 
@@ -398,7 +396,6 @@ export default function NewMatch(props) {
         jogadoresTime2: playersTeam2
       })
         .then(Alert.alert('Partida adicionada com sucesso!'))
-        .then(props.readMatches())
         .then(cancelMatch())
     } catch (e) {
       Alert.alert('Erro ao adicionar o jogador!')
@@ -442,6 +439,15 @@ export default function NewMatch(props) {
   const setDateModal = () => {
     setShow(!show)
     setIsDate(true)
+  }
+
+  const newMatch = {
+    time1: '',
+    time2: '',
+    date: new Date(),
+    resultado: [],
+    jogadoresTime1: [],
+    jogadoresTime2: []
   }
 
   return (

@@ -11,11 +11,11 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import AuthContext from '../config/AuthContext'
 
-export default function Login({ setIsLogged }) {
+export default function Login() {
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
 
-  const { isLogged, signIn, signOut } = useContext(AuthContext)
+  const { signIn } = useContext(AuthContext)
   //console.log(isLogged)
   const auth = () => {
     signIn(user, password)

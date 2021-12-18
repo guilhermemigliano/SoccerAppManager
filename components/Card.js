@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { View, Text, StyleSheet, Dimensions } from 'react-native'
+
+import AuthContext from '../config/AuthContext'
 
 import Carousel from 'react-native-snap-carousel'
 import { addDays, addMonths, isSameMonth, subDays, subMonths } from 'date-fns'
 import Partida from './Partida'
 
-export default function Card({ date, readMatches, collection }) {
-  const filteredGames = collection.filter(col => isSameMonth(col.date, date))
+export default function Card({ date }) {
+  const { listOfMatches } = useContext(AuthContext)
+
+  const filteredGames = listOfMatches.filter(col => isSameMonth(col.date, date))
 
   const SLIDER_WIDTH = Dimensions.get('window').width
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8)

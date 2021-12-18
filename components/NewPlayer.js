@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 import {
   View,
@@ -12,10 +12,20 @@ import {
 import { collection, addDoc } from 'firebase/firestore'
 import db from '../config/firebase'
 
-export default function NewPlayer({ readPlayers }) {
+import AuthContext from '../config/AuthContext'
+
+export default function NewPlayer() {
   const [addPlayer, setAddPlayer] = useState('')
+  const { setPlayers, listOfPlayers } = useContext(AuthContext)
 
   async function addFirebase() {
+    if (
+      listOfPlayers.some(
+        elem => elem.jogador.toLowerCase() == addPlayer.trim().toLowerCase()
+      )
+    ) {
+      return Alert.alert('Jogador existente!')
+    }
     try {
       if (addPlayer.trim() === '') {
         return Alert.alert('Adicione o nome do jogador')
@@ -23,7 +33,7 @@ export default function NewPlayer({ readPlayers }) {
       const docRef = await addDoc(collection(db, 'Players'), {
         jogador: addPlayer
       })
-      readPlayers()
+      setPlayers()
       Alert.alert(`Jogador ${addPlayer} adicionado com sucesso!`)
       setAddPlayer('')
       //console.log('Document written with ID: ', docRef.id)
