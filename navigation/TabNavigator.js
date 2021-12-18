@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, Platform } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -36,16 +36,17 @@ export default function TabNavigator() {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size * 0.8} color={color} />
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: '#3f6dd4',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: { backgroundColor: 'white' },
         headerStyle: {
-          backgroundColor: '#f4511e'
+          backgroundColor: '#31343b'
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
-          fontSize: 18
+          fontSize: 18,
+          marginBottom: Platform.OS === 'ios' ? 10 : 0
         },
         headerTitleAlign: 'center'
       })}
@@ -54,7 +55,8 @@ export default function TabNavigator() {
         name="Home"
         component={Home}
         options={{
-          title: 'Partidas'
+          title: 'Partidas',
+          headerShown: false
         }}
       />
       <Tab.Screen

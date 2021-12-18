@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, StatusBar } from 'react-native'
 
 import RNPickerSelect from 'react-native-picker-select'
 import { Ionicons } from '@expo/vector-icons'
@@ -13,6 +13,7 @@ export default function PickTeam(props) {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View>
         <Text style={styles.teamTitle}>
           {props.num == 1 ? 'Time 1' : 'Time 2'}
@@ -48,12 +49,15 @@ export default function PickTeam(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginHorizontal: 10,
+    marginVertical: 10,
+    backgroundColor: '#454952'
   },
   teamTitle: {
     fontWeight: '600',
     fontSize: 16,
-    backgroundColor: 'rgba(0, 0, 0, 1)',
+    backgroundColor: '#454952',
     paddingVertical: 5,
     paddingHorizontal: 15,
     color: 'white',
@@ -68,9 +72,9 @@ const pickerSelectStyles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 15,
     borderWidth: 0.5,
-    borderColor: '#c9c9c9',
-    color: 'black',
-    backgroundColor: 'rgba(256, 256, 256, 1)',
+    borderColor: '#454852',
+    color: 'white',
+    backgroundColor: '#31343b',
     paddingRight: 30, // to ensure the text is never behind the icon
     paddingVertical: 10,
     justifyContent: 'center'
@@ -81,9 +85,9 @@ const pickerSelectStyles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 10,
     borderWidth: 0.5,
-    borderColor: '#c9c9c9',
-    color: 'black',
-    backgroundColor: 'rgba(256, 256, 256, 1)',
+    borderColor: '#454852',
+    color: 'white',
+    backgroundColor: '#31343b',
     paddingRight: 30, // to ensure the text is never behind the icon
     padding: 0,
     justifyContent: 'center'

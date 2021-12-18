@@ -4,7 +4,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Platform
+  Platform,
+  StatusBar
 } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
@@ -13,6 +14,7 @@ import { format } from 'date-fns'
 export default function PickDate(props) {
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View style={styles.dateTitleContainer}>
         <Text style={styles.dateTitle}>{format(props.date, 'dd/MM/yyyy')}</Text>
       </View>
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     height: 40,
-    backgroundColor: 'rgba(230, 137, 106, 0.8)',
+    backgroundColor: '#40444d',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -42,7 +44,8 @@ const styles = StyleSheet.create({
   dateTitle: {
     fontWeight: '600',
     fontSize: 16,
-    paddingLeft: 60
+    paddingLeft: 60,
+    color: 'white'
   },
   button: {
     justifyContent: 'center',
@@ -50,8 +53,8 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderWidth: 1,
-    borderColor: 'rgba(235, 157, 131,1)',
+    borderColor: '#464a54',
     borderRadius: 3,
-    backgroundColor: 'rgba(235, 157, 131,1)'
+    backgroundColor: '#31343b'
   }
 })

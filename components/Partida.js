@@ -1,6 +1,13 @@
 import React from 'react'
 
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView
+} from 'react-native'
 
 import { format } from 'date-fns'
 
@@ -63,58 +70,65 @@ export default function Partida(props) {
         </Text>
         <Image style={styles.logo} source={time(props.time2)} />
       </View>
-
       <View style={styles.cardContainer}>
-        <View style={styles.timeContainer}>
-          {props.jogadoresTime1.map(jogador => (
-            <View key={jogador.Jogador}>
-              <Text style={styles.nomeJogador}>{jogador.Jogador}</Text>
-              <View style={{ flexDirection: 'row' }}>
-                {jogador.Gols.map(gol => (
-                  <Image
-                    style={styles.bola}
-                    source={golFavor}
-                    fadeDuration={100}
-                  />
-                ))}
-                {jogador.GolContra.map(gol => (
-                  <Image
-                    style={styles.bola}
-                    source={golContra}
-                    fadeDuration={100}
-                  />
-                ))}
-              </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.cardContent}>
+            <View style={styles.timeContainer}>
+              {props.jogadoresTime1.map(jogador => (
+                <View key={jogador.jogador}>
+                  <Text style={styles.nomeJogador}>{jogador.jogador}</Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    {jogador.gol.map(gol => (
+                      <Image
+                        key={Math.random()}
+                        style={styles.bola}
+                        source={golFavor}
+                        fadeDuration={100}
+                      />
+                    ))}
+                    {jogador.golContra.map(gol => (
+                      <Image
+                        key={Math.random()}
+                        style={styles.bola}
+                        source={golContra}
+                        fadeDuration={100}
+                      />
+                    ))}
+                  </View>
+                </View>
+              ))}
             </View>
-          ))}
-        </View>
-        <View style={styles.timeContainer}>
-          {props.jogadoresTime2.map(jogador => (
-            <View key={jogador.Jogador}>
-              <Text style={[styles.nomeJogador, { textAlign: 'right' }]}>
-                {jogador.Jogador}
-              </Text>
-              <View
-                style={{ flexDirection: 'row', justifyContent: 'flex-end' }}
-              >
-                {jogador.GolContra.map(gol => (
-                  <Image
-                    style={styles.bola}
-                    source={golContra}
-                    fadeDuration={100}
-                  />
-                ))}
-                {jogador.Gols.map(gol => (
-                  <Image
-                    style={styles.bola}
-                    source={golFavor}
-                    fadeDuration={100}
-                  />
-                ))}
-              </View>
+            <View style={styles.timeContainer}>
+              {props.jogadoresTime2.map(jogador => (
+                <View key={jogador.jogador}>
+                  <Text style={[styles.nomeJogador, { textAlign: 'right' }]}>
+                    {jogador.jogador}
+                  </Text>
+                  <View
+                    style={{ flexDirection: 'row', justifyContent: 'flex-end' }}
+                  >
+                    {jogador.golContra.map(gol => (
+                      <Image
+                        key={Math.random()}
+                        style={styles.bola}
+                        source={golContra}
+                        fadeDuration={100}
+                      />
+                    ))}
+                    {jogador.gol.map(gol => (
+                      <Image
+                        key={Math.random()}
+                        style={styles.bola}
+                        source={golFavor}
+                        fadeDuration={100}
+                      />
+                    ))}
+                  </View>
+                </View>
+              ))}
             </View>
-          ))}
-        </View>
+          </View>
+        </ScrollView>
       </View>
     </View>
   )
@@ -170,12 +184,15 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   cardContainer: {
-    backgroundColor: 'rgba(220, 227, 215, 0.9)',
-    flexDirection: 'row',
+    backgroundColor: 'rgba(220, 227, 215, 0.8)',
     marginTop: 10,
     borderRadius: 10,
     padding: 10,
     elevation: 5,
+    flex: 0.8
+  },
+  cardContent: {
+    flexDirection: 'row',
     justifyContent: 'space-between'
   },
   timeContainer: {
@@ -184,7 +201,8 @@ const styles = StyleSheet.create({
   nomeJogador: {
     fontWeight: '700',
     fontSize: 12,
-    marginVertical: 10
+    marginVertical: 10,
+    color: 'black'
   },
   bola: {
     width: 8,

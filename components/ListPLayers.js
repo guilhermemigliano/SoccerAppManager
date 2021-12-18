@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   StyleSheet,
   View,
@@ -7,8 +7,13 @@ import {
   ScrollView,
   Modal,
   SafeAreaView,
-  Button
+  Button,
+  Platform
 } from 'react-native'
+import { collection, getDocs, addDoc } from 'firebase/firestore'
+import db from '../config/firebase'
+
+import PickTeam from './PickTeam'
 
 const Player = ({
   player,
@@ -18,9 +23,10 @@ const Player = ({
 }) => {
   return (
     <View style={styles.playerContainer}>
+      <Text style={{ color: 'white', flex: 1 }}>{player.jogador}</Text>
       {playersTeam1.some(elem => elem.jogador == player.jogador) ? (
         <TouchableOpacity
-          style={[{ ...styles.buttonLeft }, { backgroundColor: '#f58d64' }]}
+          style={[{ ...styles.buttonLeft }, { backgroundColor: 'tomato' }]}
           onPress={addRemovePlayerHandler.bind(this, player, 1)}
         >
           <Text style={{ color: 'white' }}>TIME 1</Text>
@@ -34,10 +40,9 @@ const Player = ({
         </TouchableOpacity>
       )}
 
-      <Text>{player.jogador}</Text>
       {playersTeam2.some(elem => elem.jogador == player.jogador) ? (
         <TouchableOpacity
-          style={[{ ...styles.buttonRight }, { backgroundColor: '#000' }]}
+          style={[{ ...styles.buttonRight }, { backgroundColor: '#3f6dd4' }]}
           onPress={addRemovePlayerHandler.bind(this, player, 2)}
         >
           <Text style={{ color: 'white' }}>TIME 2</Text>
@@ -54,20 +59,34 @@ const Player = ({
   )
 }
 
-const jogadores = [
-  { jogador: 'Guilherme Migliano' },
-  { jogador: 'Guilherme Migliano1' },
-  { jogador: 'Guilherme Migliano2' },
-  { jogador: 'Guilherme Migliano3' },
-  { jogador: 'Guilherme Migliano4' },
-  { jogador: 'Guilherme Migliano5' },
-  { jogador: 'Guilherme Migliano6' },
-  { jogador: 'Guilherme Migliano7' },
-  { jogador: 'Guilherme Migliano8' },
-  { jogador: 'Guilherme Migliano9' }
-]
-
 export default function ListPlayers(props) {
+  const [players, setPlayers] = useState([])
+
+  async function readPlayers() {
+    const querySnapshot = await getDocs(collection(db, 'Players'))
+    const list = []
+    querySnapshot.forEach(doc => {
+      list.push(doc.data())
+      console.log(`${doc.id} => ${doc.data()}  => ${doc.data().id}`)
+    })
+    list.sort(function (a, b) {
+      if (a.jogador > b.jogador) {
+        return 1
+      }
+      if (a.jogador < b.jogador) {
+        return -1
+      }
+      // a must be equal to b
+      return 0
+    })
+    setPlayers(list)
+    console.log(players)
+  }
+
+  useEffect(() => {
+    readPlayers()
+  }, [])
+
   return (
     <Modal
       animationType="slide"
@@ -76,9 +95,15 @@ export default function ListPlayers(props) {
         setModalPlayers(false)
       }}
     >
+      <SafeAreaView style={{ flex: 0, backgroundColor: '#31343b' }} />
       <SafeAreaView style={styles.container}>
-        <ScrollView>
-          {jogadores.map(jogador => (
+        <ScrollView
+          style={{ backgroundColor: '#31343b' }}
+          showsVerticalScrollIndicator={false}
+        >
+          <PickTeam team={props.team1} setTeam={props.setTeam1} num={1} />
+          <PickTeam team={props.team2} setTeam={props.setTeam2} num={2} />
+          {players.map(jogador => (
             <Player
               key={jogador.jogador}
               player={jogador}
@@ -88,7 +113,7 @@ export default function ListPlayers(props) {
             />
           ))}
         </ScrollView>
-        <View style={{ alignItems: 'center' }}>
+        <View>
           <TouchableOpacity
             style={styles.buttonModal}
             onPress={props.closeModal}
@@ -102,49 +127,44 @@ export default function ListPlayers(props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: '#454852' },
   playerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginHorizontal: 30,
-    marginVertical: 20,
-    borderWidth: 1,
-    borderColor: '#c1c1c1',
-    borderRadius: 10
+    marginHorizontal: 12,
+    marginVertical: 10
   },
   buttonLeft: {
-    width: '30%',
-    backgroundColor: '#ccc',
+    backgroundColor: '#454852',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    borderBottomStartRadius: 8,
-    borderBottomEndRadius: 0,
-    borderTopEndRadius: 0,
-    borderTopStartRadius: 8
+    marginRight: 10,
+    borderRadius: 5
   },
   buttonRight: {
-    width: '30%',
-    backgroundColor: '#ccc',
+    backgroundColor: '#454852',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    borderBottomStartRadius: 0,
-    borderBottomEndRadius: 8,
-    borderTopEndRadius: 8,
-    borderTopStartRadius: 0
+    borderRadius: 5
   },
   buttonModal: {
-    width: 100,
-    backgroundColor: 'tomato',
+    backgroundColor: '#454852',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    borderRadius: 8
+    marginTop: 0,
+    borderTopWidth: 2,
+    borderColor: '#31343b'
   },
   buttonModalTitle: {
-    fontWeight: '600',
-    color: 'white'
+    fontWeight: '700',
+    color: 'white',
+    fontSize: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: Platform.OS === 'ios' ? 10 : 0
   }
 })

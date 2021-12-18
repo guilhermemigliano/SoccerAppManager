@@ -5,8 +5,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import AppNavigator from './navigation/AppNavigator'
 
-import Home from './screens/Home'
-import Ranking from './screens/Ranking'
+import { enableScreens } from 'react-native-screens'
+
+enableScreens()
 
 const Tab = createBottomTabNavigator()
 
