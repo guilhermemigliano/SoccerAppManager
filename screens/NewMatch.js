@@ -570,7 +570,7 @@ export default function NewMatch(props) {
             />
           )}
           <View style={styles.playersContaier}>
-            <View style={styles.playersContainerTitle}>
+            <View style={styles.playersContainerTitle1}>
               <Text style={styles.playersContainerTitleText}>
                 Time 1 {team1 ? `(${team1})` : null} - Jogadores
               </Text>
@@ -602,7 +602,7 @@ export default function NewMatch(props) {
               </Text>
             )}
 
-            <View style={styles.playersContainerTitle}>
+            <View style={styles.playersContainerTitle2}>
               <Text style={styles.playersContainerTitleText}>
                 Time 2 {team2 ? `(${team2})` : null} - Jogadores
               </Text>
@@ -678,7 +678,19 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   image: { overflow: 'hidden', justifyContent: 'center', alignItems: 'center' },
-  playersContainerTitle: {
+  playersContainerTitle1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'tomato',
+    padding: 10,
+    marginHorizontal: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+  playersContainerTitle2: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -691,7 +703,8 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   playersContainerTitleText: {
-    color: 'white'
+    color: 'white',
+    fontWeight: '700'
   },
   playersContent: {
     marginHorizontal: 10,

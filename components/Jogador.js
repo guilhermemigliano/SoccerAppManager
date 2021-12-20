@@ -15,46 +15,96 @@ export default function Jogador({
   addScoreAgainst,
   removeScoreAgainst
 }) {
+  console.log(jogador)
   return (
-    <View style={playerComponent.container}>
-      <View style={playerComponent.playerContainer}>
-        <Text style={playerComponent.playerName}>{jogador.jogador}</Text>
-      </View>
-      <View style={playerComponent.buttonContainer}>
-        <View style={playerComponent.playerContent}>
-          <Text style={playerComponent.text}>Gols: </Text>
-          <TouchableOpacity
-            style={playerComponent.button}
-            onPress={addScore.bind(this, jogador)}
-          >
-            <Text style={playerComponent.text}>+</Text>
-          </TouchableOpacity>
-          <Text style={playerComponent.text}>{jogador.gol.length}</Text>
-          <TouchableOpacity
-            style={playerComponent.button}
-            onPress={removeScore.bind(this, jogador)}
-          >
-            <Text style={playerComponent.text}>-</Text>
-          </TouchableOpacity>
-        </View>
+    <View>
+      {jogador.tipo == 'goleiro' ? (
+        <View style={playerComponent.goalKeeper}>
+          <View style={playerComponent.playerContainer}>
+            <Text style={playerComponent.playerName}>{jogador.jogador}</Text>
+          </View>
+          <View style={playerComponent.buttonContainer}>
+            <View style={playerComponent.playerContent}>
+              <Text style={playerComponent.text}>Gols: </Text>
+              <TouchableOpacity
+                style={playerComponent.button}
+                onPress={addScore.bind(this, jogador)}
+              >
+                <Text style={playerComponent.text}>+</Text>
+              </TouchableOpacity>
+              <Text style={playerComponent.text}>{jogador.gol.length}</Text>
+              <TouchableOpacity
+                style={playerComponent.button}
+                onPress={removeScore.bind(this, jogador)}
+              >
+                <Text style={playerComponent.text}>-</Text>
+              </TouchableOpacity>
+            </View>
 
-        <View style={playerComponent.playerContent}>
-          <Text style={playerComponent.text}>Contra: </Text>
-          <TouchableOpacity
-            style={playerComponent.button}
-            onPress={addScoreAgainst.bind(this, jogador)}
-          >
-            <Text style={playerComponent.text}>+</Text>
-          </TouchableOpacity>
-          <Text style={playerComponent.text}>{jogador.golContra.length}</Text>
-          <TouchableOpacity
-            style={playerComponent.button}
-            onPress={removeScoreAgainst.bind(this, jogador)}
-          >
-            <Text style={playerComponent.text}>-</Text>
-          </TouchableOpacity>
+            <View style={playerComponent.playerContent}>
+              <Text style={playerComponent.text}>Contra: </Text>
+              <TouchableOpacity
+                style={playerComponent.button}
+                onPress={addScoreAgainst.bind(this, jogador)}
+              >
+                <Text style={playerComponent.text}>+</Text>
+              </TouchableOpacity>
+              <Text style={playerComponent.text}>
+                {jogador.golContra.length}
+              </Text>
+              <TouchableOpacity
+                style={playerComponent.button}
+                onPress={removeScoreAgainst.bind(this, jogador)}
+              >
+                <Text style={playerComponent.text}>-</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
+      ) : (
+        <View style={playerComponent.container}>
+          <View style={playerComponent.playerContainer}>
+            <Text style={playerComponent.playerName}>{jogador.jogador}</Text>
+          </View>
+          <View style={playerComponent.buttonContainer}>
+            <View style={playerComponent.playerContent}>
+              <Text style={playerComponent.text}>Gols: </Text>
+              <TouchableOpacity
+                style={playerComponent.button}
+                onPress={addScore.bind(this, jogador)}
+              >
+                <Text style={playerComponent.text}>+</Text>
+              </TouchableOpacity>
+              <Text style={playerComponent.text}>{jogador.gol.length}</Text>
+              <TouchableOpacity
+                style={playerComponent.button}
+                onPress={removeScore.bind(this, jogador)}
+              >
+                <Text style={playerComponent.text}>-</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={playerComponent.playerContent}>
+              <Text style={playerComponent.text}>Contra: </Text>
+              <TouchableOpacity
+                style={playerComponent.button}
+                onPress={addScoreAgainst.bind(this, jogador)}
+              >
+                <Text style={playerComponent.text}>+</Text>
+              </TouchableOpacity>
+              <Text style={playerComponent.text}>
+                {jogador.golContra.length}
+              </Text>
+              <TouchableOpacity
+                style={playerComponent.button}
+                onPress={removeScoreAgainst.bind(this, jogador)}
+              >
+                <Text style={playerComponent.text}>-</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   )
 }
@@ -64,6 +114,12 @@ const playerComponent = StyleSheet.create({
     paddingVertical: 0,
     marginTop: 5,
     backgroundColor: '#454952',
+    borderRadius: 10
+  },
+  goalKeeper: {
+    paddingVertical: 0,
+    marginTop: 5,
+    backgroundColor: '#606570',
     borderRadius: 10
   },
   playerContainer: {
@@ -102,7 +158,7 @@ const playerComponent = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     marginHorizontal: 5,
-    marginVertical: 5,
+    marginBottom: 5,
     backgroundColor: '#31343b',
     borderRadius: 10
   }

@@ -8,6 +8,8 @@ import { Ionicons } from '@expo/vector-icons'
 import AuthContext from '../config/AuthContext'
 import ArtilheiroAno from '../components/ArtilheiroAno'
 import ArtilheiroFDK from '../components/ArtilheiroFDK'
+import ArtilheiroContraFDK from '../components/ArtilheiroContraFDK'
+import ArtilheiroContraAno from '../components/ArtilheiroContraAno'
 
 export default function Ranking() {
   const [ranking, setRanking] = useState(0)
@@ -15,7 +17,7 @@ export default function Ranking() {
   const { listOfPlayers, listOfMatches } = useContext(AuthContext)
 
   const placeholder = {
-    label: 'Selecione um time...',
+    label: 'Selecione um ranking...',
     value: null,
     color: '#9EA0A4'
   }
@@ -41,21 +43,31 @@ export default function Ranking() {
         items={[
           { label: 'Artilheiro FDK', value: 0 },
           { label: 'Artilheiro do Ano', value: 1 },
-          { label: 'Artilheiro Gol Contra', value: 2 },
-          { label: 'Goleiro do Ano', value: 3 },
-          { label: 'Goleiro FDK', value: 4 }
+          { label: 'Artilheiro Gol Contra FDK', value: 2 },
+          { label: 'Artilheiro Gol Contra Ano', value: 3 }
         ]}
       />
-
-      {/*<ArtilheiroFDK
-        listOfMatches={listOfMatches}
-        listOfPlayers={listOfPlayers}
-      />*/}
-
-      <ArtilheiroAno
-        listOfMatches={listOfMatches}
-        listOfPlayers={listOfPlayers}
-      />
+      {ranking == 0 ? (
+        <ArtilheiroFDK
+          listOfMatches={listOfMatches}
+          listOfPlayers={listOfPlayers}
+        />
+      ) : ranking == 1 ? (
+        <ArtilheiroAno
+          listOfMatches={listOfMatches}
+          listOfPlayers={listOfPlayers}
+        />
+      ) : ranking == 2 ? (
+        <ArtilheiroContraFDK
+          listOfMatches={listOfMatches}
+          listOfPlayers={listOfPlayers}
+        />
+      ) : ranking == 3 ? (
+        <ArtilheiroContraAno
+          listOfMatches={listOfMatches}
+          listOfPlayers={listOfPlayers}
+        />
+      ) : null}
     </View>
   )
 }
