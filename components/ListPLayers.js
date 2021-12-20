@@ -66,8 +66,8 @@ export default function ListPlayers(props) {
     const querySnapshot = await getDocs(collection(db, 'Players'))
     const list = []
     querySnapshot.forEach(doc => {
-      list.push(doc.data())
-      console.log(`${doc.id} => ${doc.data()}  => ${doc.data().id}`)
+      list.push({ id: doc.id, jogador: doc.data().jogador })
+      //console.log(`${doc.id} => ${doc.data()}  => ${doc.data().id}`)
     })
     list.sort(function (a, b) {
       if (a.jogador > b.jogador) {

@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from 'react-native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -24,33 +25,35 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <View style={styles.inputContainer}>
-        <Text style={styles.labelInput}>Usuário:</Text>
-        <TextInput
-          style={styles.input}
-          value={user}
-          placeholder="usuário"
-          onChangeText={text => setUser(text)}
-          autoComplete="off"
-          autoCorrect={false}
-        />
-        <Text style={styles.labelInput}>Senha:</Text>
-        <TextInput
-          style={styles.input}
-          value={password}
-          placeholder="senha"
-          onChangeText={text => setPassword(text)}
-          autoComplete="off"
-          autoCorrect={false}
-          secureTextEntry={true}
-        />
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <TouchableOpacity style={styles.button} onPress={auth}>
-            <Text style={styles.textButton}>Entrar</Text>
-          </TouchableOpacity>
+      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={10}>
+        <Text style={styles.title}>Login</Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.labelInput}>Usuário:</Text>
+          <TextInput
+            style={styles.input}
+            value={user}
+            placeholder="usuário"
+            onChangeText={text => setUser(text)}
+            autoComplete="off"
+            autoCorrect={false}
+          />
+          <Text style={styles.labelInput}>Senha:</Text>
+          <TextInput
+            style={styles.input}
+            value={password}
+            placeholder="senha"
+            onChangeText={text => setPassword(text)}
+            autoComplete="off"
+            autoCorrect={false}
+            secureTextEntry={true}
+          />
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <TouchableOpacity style={styles.button} onPress={auth}>
+              <Text style={styles.textButton}>Entrar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   )
 }

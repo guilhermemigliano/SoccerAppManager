@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {
   View,
   Text,
@@ -153,7 +153,7 @@ export default function NewMatch(props) {
   const removePLayerAlert = oldPlayer =>
     Alert.alert(
       'Remover Jogador',
-      `Remover jogador ${oldPlayer.jogador} do time ${oldPlayer.time}?`,
+      `Remover o jogador ${oldPlayer.jogador} do time ${oldPlayer.time}?`,
       [
         {
           text: 'Cancelar',
@@ -198,7 +198,8 @@ export default function NewMatch(props) {
       jogador: player.jogador,
       gol: [],
       golContra: [],
-      time: team
+      time: team,
+      id: player.id
     }
 
     if (team === 1) {
@@ -398,7 +399,7 @@ export default function NewMatch(props) {
         .then(Alert.alert('Partida adicionada com sucesso!'))
         .then(cancelMatch())
     } catch (e) {
-      Alert.alert('Erro ao adicionar o jogador!')
+      Alert.alert(e)
       //console.error('Error adding document: ', e)
     }
   }
@@ -415,11 +416,16 @@ export default function NewMatch(props) {
       return Alert.alert('Selecione os jogadores!')
     }
 
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric'
+    }
+
     Alert.alert(
       'Criar partida',
-      `Data da partida: ${date.toLocaleDateString('pt-BR', {
-        timeZone: 'UTC'
-      })}`,
+      `Data da partida: ${date.toLocaleDateString('pt-BR', options)}`,
       [
         {
           text: 'Cancelar',
@@ -439,15 +445,6 @@ export default function NewMatch(props) {
   const setDateModal = () => {
     setShow(!show)
     setIsDate(true)
-  }
-
-  const newMatch = {
-    time1: '',
-    time2: '',
-    date: new Date(),
-    resultado: [],
-    jogadoresTime1: [],
-    jogadoresTime2: []
   }
 
   return (
@@ -687,7 +684,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3f6dd4',
     padding: 10,
     marginHorizontal: 10,
-    borderRadius: 10,
+    borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20

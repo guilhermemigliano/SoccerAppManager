@@ -86,9 +86,9 @@ export const AuthProvider = ({ children }) => {
   async function signIn(user, password) {
     if (user == USER && password == PASSWORD) {
       await AsyncStorage.setItem('@auth', JSON.stringify(true))
-      return setIslogged(true)
+      setIslogged(true)
     } else {
-      return Alert.alert('Login incorreto')
+      Alert.alert('Login incorreto')
     }
   }
 
