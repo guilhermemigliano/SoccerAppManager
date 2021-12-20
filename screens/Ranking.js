@@ -47,7 +47,12 @@ export default function Ranking() {
         ]}
       />
 
-      <ArtilheiroFDK
+      {/*<ArtilheiroFDK
+        listOfMatches={listOfMatches}
+        listOfPlayers={listOfPlayers}
+      />*/}
+
+      <ArtilheiroAno
         listOfMatches={listOfMatches}
         listOfPlayers={listOfPlayers}
       />

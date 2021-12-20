@@ -16,6 +16,7 @@ import db from '../config/firebase'
 
 import Login from '../components/Login'
 import NewPlayer from '../components/NewPlayer'
+import NewGoalKeeper from '../components/NewGoalKeeper'
 import RemovePlayer from '../components/RemovePlayer'
 
 import AuthContext from '../config/AuthContext'
@@ -36,6 +37,7 @@ export default function Settings(props) {
                 keyboardVerticalOffset={10}
               >
                 <NewPlayer />
+                <NewGoalKeeper />
                 <RemovePlayer />
               </KeyboardAvoidingView>
             </ScrollView>

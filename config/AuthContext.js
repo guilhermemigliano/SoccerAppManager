@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   })
 
   useEffect(() => {
-    //lista de partidas
+    //lista de jogadores
     async function getPlayers() {
       const querySnapshot = await getDocs(collection(db, 'Players'))
       //const p = { label: '', value: '' }
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
       const list = []
 
       querySnapshot.forEach(p => {
-        list.push({ id: p.id, jogador: p.data().jogador })
+        list.push({ id: p.id, jogador: p.data().jogador, tipo: p.data().tipo })
       })
 
       setListOfPlayers(list)
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   }, [playersChanged])
 
   useEffect(() => {
-    //lista de jogadores
+    //lista de partidas
     async function getMatches() {
       const querySnapshot = await getDocs(collection(db, 'Matches'))
       const list = []

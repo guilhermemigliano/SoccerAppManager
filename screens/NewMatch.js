@@ -199,7 +199,8 @@ export default function NewMatch(props) {
       gol: [],
       golContra: [],
       time: team,
-      id: player.id
+      id: player.id,
+      tipo: player.tipo
     }
 
     if (team === 1) {

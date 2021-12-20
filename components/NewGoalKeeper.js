@@ -32,7 +32,7 @@ export default function NewPlayer() {
       }
       const docRef = await addDoc(collection(db, 'Players'), {
         jogador: addPlayer,
-        tipo: 'linha'
+        tipo: 'goleiro'
       })
       setPlayers()
       Alert.alert(`Jogador ${addPlayer} adicionado com sucesso!`)
@@ -46,7 +46,7 @@ export default function NewPlayer() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Adicionar um jogador</Text>
+      <Text style={styles.title}>Adicionar um goleiro</Text>
       <TextInput
         style={styles.input}
         value={addPlayer}
