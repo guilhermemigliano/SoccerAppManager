@@ -84,7 +84,6 @@ export default function ListPlayers(props) {
       return 0
     })
     setPlayers(list)
-    console.log(players)
   }
 
   useEffect(() => {

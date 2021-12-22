@@ -14,6 +14,7 @@ export default function ArtilheiroFDK({ listOfPlayers, listOfMatches }) {
     listOfMatches.forEach(partida => {
       partida.jogadoresTime1.forEach(pl => {
         let pos = playersArray.indexOf(pl.jogador)
+
         if (dataArray[pos] === undefined) {
           dataArray[pos] = {
             jogador: '',
@@ -35,6 +36,7 @@ export default function ArtilheiroFDK({ listOfPlayers, listOfMatches }) {
 
       partida.jogadoresTime2.forEach(pl => {
         let pos = playersArray.indexOf(pl.jogador)
+
         if (dataArray[pos] === undefined) {
           dataArray[pos] = {
             jogador: '',

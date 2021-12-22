@@ -16,7 +16,7 @@ import Header from '../components/Header'
 
 import NewMatch from './NewMatch'
 
-const image = require('../assets/imgs/campo1.jpg')
+const image = require('../assets/imgs/campo5.jpeg')
 
 export default function Home({ navigation }) {
   const [date, setDate] = useState(new Date())
@@ -43,16 +43,12 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Header title="Partidas" setModalVisible={() => setModalVisible(true)} />
+      <Header title="Partidas" navigation={navigation} />
       <StatusBar hidden style="light" backgroundColor="#31343b" />
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <MonthPicker date={date} onChange={newDate => setDate(newDate)} />
-        <Card date={date} />
+        <Card date={date} navigation={navigation} />
       </ImageBackground>
-      <NewMatch
-        modalVisible={modalVisible}
-        closeModal={() => setModalVisible(!modalVisible)}
-      />
     </View>
   )
 }

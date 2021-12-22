@@ -12,7 +12,7 @@ import { StatusBar } from 'expo-status-bar'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AuthContext from '../config/AuthContext'
 
-export default function components(props) {
+export default function components({ title, navigation }) {
   const { isLogged } = useContext(AuthContext)
 
   return (
@@ -20,9 +20,9 @@ export default function components(props) {
       <StatusBar style="light" backgroundColor="#31343b" />
       {isLogged ? (
         <View style={styles.container}>
-          <Text style={[styles.title, { marginLeft: 55 }]}>{props.title}</Text>
+          <Text style={[styles.title, { marginLeft: 55 }]}>{title}</Text>
           <TouchableOpacity
-            onPress={props.setModalVisible}
+            onPress={() => navigation.navigate('Nova Partida')}
             style={styles.button}
           >
             <Ionicons name="add-outline" size={20} color="white" />
@@ -30,7 +30,7 @@ export default function components(props) {
         </View>
       ) : (
         <View style={styles.container}>
-          <Text style={styles.title}>{props.title}</Text>
+          <Text style={styles.title}>{title}</Text>
         </View>
       )}
     </SafeAreaView>

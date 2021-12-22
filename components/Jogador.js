@@ -15,7 +15,6 @@ export default function Jogador({
   addScoreAgainst,
   removeScoreAgainst
 }) {
-  console.log(jogador)
   return (
     <View>
       {jogador.tipo == 'goleiro' ? (

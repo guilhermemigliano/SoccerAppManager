@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons'
 //import Sound from 'react-native-sound'
 import { Audio } from 'expo-av'
 
-import { collection, addDoc } from 'firebase/firestore'
+import { updateDoc, doc } from 'firebase/firestore'
 import db from '../config/firebase'
 
 import AuthContext from '../config/AuthContext'
@@ -24,11 +24,10 @@ import ListPlayers from '../components/ListPLayers'
 import Placar from '../components/Placar'
 import Jogador from '../components/Jogador'
 import DateTimePicker from '@react-native-community/datetimepicker'
-import StopWatch from '../components/StopWatch'
 
 const image = require('../assets/imgs/campo4.jpg')
 
-export default function NewMatch({ navigation }) {
+export default function EditMatch({ route, navigation }) {
   const [date, setDate] = useState(new Date())
   const [isDate, setIsDate] = useState(false)
   const [show, setShow] = useState(false)
@@ -39,110 +38,10 @@ export default function NewMatch({ navigation }) {
   const [score2, setScore2] = useState(0)
   const [playersTeam1, setPlayersTeam1] = useState([])
   const [playersTeam2, setPlayersTeam2] = useState([])
-  const [totalTime, setTotalTime] = useState(510)
-  const [timer, setTimer] = useState(510)
-  const [play, setPlay] = useState(false)
-  const [showTimer, setShowTimer] = useState(false)
-  const [sound, setSound] = React.useState()
 
-  const { setMatches } = useContext(AuthContext)
-  //const sound = new Sound('../assets/sounds/audio.mp3')
+  const { setMatches, setPlayers, listOfMatches } = useContext(AuthContext)
 
-  async function playSound() {
-    console.log('Loading Sound')
-    const { sound } = await Audio.Sound.createAsync(
-      require('../assets/sounds/audio.mp3')
-    )
-    setSound(sound)
-
-    console.log('Playing Sound')
-    await sound.playAsync()
-  }
-
-  global.temporizador
-
-  function startTimer() {
-    setPlay(true)
-    global.temporizador = setInterval(handleTimer, 1000)
-  }
-
-  function stopTimer() {
-    clearInterval(global.temporizador)
-    setPlay(false)
-    setTotalTime(timer)
-  }
-  const stopTimerAlert = () =>
-    Alert.alert('Reiniciar Jogo', `Tem certeza que deseja reiniciar o jogo?`, [
-      {
-        text: 'Não',
-        onPress: () => false,
-        style: 'cancel'
-      },
-      {
-        text: 'Sim',
-        onPress: stopTimer
-      }
-    ])
-
-  function pauseTimer() {
-    clearInterval(global.temporizador)
-    setPlay(false)
-  }
-
-  const handleTimer = () => {
-    setTotalTime(prev => {
-      if (prev == 1) {
-        clearInterval(global.temporizador)
-        playSound()
-        setPlay(false)
-        return prev + timer - 1
-      } else {
-        return prev - 1
-      }
-    })
-  }
-
-  const setMinutesUp = () => {
-    if (!play) {
-      setTimer(prevState => {
-        return prevState + 60
-      })
-      setTotalTime(prevState => {
-        return prevState + 60
-      })
-    }
-  }
-  const setMinutesDown = () => {
-    if (!play) {
-      setTimer(prevState => {
-        return prevState - 60
-      })
-      setTotalTime(prevState => {
-        return prevState - 60
-      })
-    }
-  }
-  const setSecondsUp = () => {
-    if (!play) {
-      setTimer(prevState => {
-        return prevState + 1
-      })
-      setTotalTime(prevState => {
-        return prevState + 1
-      })
-    }
-  }
-
-  const setSecondsDown = () => {
-    if (!play) {
-      setTimer(prevState => {
-        return prevState - 1
-      })
-      setTotalTime(prevState => {
-        return prevState - 1
-      })
-    }
-  }
+  const { matchId } = route.params
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date
@@ -376,20 +275,19 @@ export default function NewMatch({ navigation }) {
     setScore2(0)
     setPlayersTeam1([])
     setPlayersTeam2([])
-    setTotalTime(510)
-    setTimer(510)
-    setPlay(false)
-    setShowTimer(false)
     setDate(new Date())
     setIsDate(false)
     setShow(false)
-    setMatches() // Context para atualizar as partidas no Home
+    setMatches() // Context para atualizar as partidas
+    setPlayers() // Context para atualizar os jogadores
     navigation.navigate('Home')
   }
 
   async function saveMatch() {
     try {
-      const docRef = await addDoc(collection(db, 'Matches'), {
+      const docRef = doc(db, 'Matches', matchId)
+
+      await updateDoc(docRef, {
         time1: team1,
         time2: team2,
         date: date,
@@ -397,11 +295,11 @@ export default function NewMatch({ navigation }) {
         jogadoresTime1: playersTeam1,
         jogadoresTime2: playersTeam2
       })
-        .then(Alert.alert('Partida adicionada com sucesso!'))
+        .then(Alert.alert('Partida atualizada com sucesso!'))
         .then(cancelMatch())
     } catch (e) {
-      Alert.alert(e)
-      //console.error('Error adding document: ', e)
+      Alert.alert('Erro ao atualizar partida')
+      console.error('Error adding document: ', e)
     }
   }
 
@@ -425,7 +323,7 @@ export default function NewMatch({ navigation }) {
     }
 
     Alert.alert(
-      'Criar partida',
+      'Atualizar partida',
       `Data da partida: ${date.toLocaleDateString('pt-BR', options)}`,
       [
         {
@@ -448,6 +346,19 @@ export default function NewMatch({ navigation }) {
     setIsDate(true)
   }
 
+  useEffect(() => {
+    const partida = listOfMatches.filter(m => m.id == matchId)
+
+    setDate(partida[0].date)
+    setIsDate(true)
+    setTeam1(partida[0].time1)
+    setTeam2(partida[0].time2)
+    setScore1(partida[0].resultado[0])
+    setScore2(partida[0].resultado[1])
+    setPlayersTeam1(partida[0].jogadoresTime1)
+    setPlayersTeam2(partida[0].jogadoresTime2)
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.container}>
@@ -459,45 +370,6 @@ export default function NewMatch({ navigation }) {
             team1={team1}
             team2={team2}
           />
-
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginVertical: 20,
-              width: 200,
-              shadowColor: 'black',
-              shadowOffset: { width: 5, height: 1 },
-              shadowOpacity: 0.4,
-              elevation: 10
-            }}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                backgroundColor: 'rgba(256,256,256, 0.7)',
-                paddingVertical: 10,
-                paddingHorizontal: 20,
-                borderRadius: 10
-              }}
-            >
-              <Text style={{ textAlign: 'center', fontWeight: '700' }}>
-                {Math.floor((totalTime % 3600) / 60) > 9
-                  ? Math.floor((totalTime % 3600) / 60)
-                  : '0' + Math.floor((totalTime % 3600) / 60)}
-              </Text>
-              <Text style={{ textAlign: 'center', fontWeight: '700' }}>
-                {' '}
-                :{' '}
-              </Text>
-              <Text style={{ textAlign: 'center', fontWeight: '700' }}>
-                {' '}
-                {Math.floor((totalTime % 3600) % 60) > 9
-                  ? Math.floor((totalTime % 3600) % 60)
-                  : '0' + Math.floor((totalTime % 3600) % 60)}
-              </Text>
-            </View>
-          </View>
         </ImageBackground>
 
         <View style={styles.menuContainer}>
@@ -526,42 +398,10 @@ export default function NewMatch({ navigation }) {
                 />
               </View>
             )}
-            <TouchableOpacity
-              style={styles.buttonMenu}
-              onPress={() => setShowTimer(!showTimer)}
-            >
-              <Ionicons name="timer" size={24} color="white" />
-            </TouchableOpacity>
-
-            {!play ? (
-              <TouchableOpacity style={styles.buttonMenu} onPress={startTimer}>
-                <Ionicons name="play" size={24} color="white" />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={styles.buttonMenu}
-                onPress={stopTimerAlert}
-              >
-                <Ionicons name="ios-stop" size={24} color="white" />
-              </TouchableOpacity>
-            )}
-
-            <TouchableOpacity style={styles.buttonMenu} onPress={pauseTimer}>
-              <Ionicons name="pause" size={24} color="white" />
-            </TouchableOpacity>
           </View>
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
-          {showTimer && (
-            <StopWatch
-              totalTime={totalTime}
-              setMinutesUp={setMinutesUp}
-              setMinutesDown={setMinutesDown}
-              setSecondsUp={setSecondsUp}
-              setSecondsDown={setSecondsDown}
-            />
-          )}
           <View style={styles.playersContaier}>
             <View style={styles.playersContainerTitle1}>
               <Text style={styles.playersContainerTitleText}>
@@ -633,7 +473,7 @@ export default function NewMatch({ navigation }) {
             onPress={cancelMatchAlert}
           >
             <Text style={{ color: 'white', fontSize: 16, fontWeight: '700' }}>
-              Fechar
+              Cancelar
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -718,7 +558,7 @@ const styles = StyleSheet.create({
   menuContent: {
     backgroundColor: '#27292e',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     marginHorizontal: 10,
     borderRadius: 10
   },

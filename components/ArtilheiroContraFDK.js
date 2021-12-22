@@ -37,6 +37,7 @@ export default function ArtilheiroContraFDK({ listOfPlayers, listOfMatches }) {
 
       partida.jogadoresTime2.forEach(pl => {
         let pos = playersArray.indexOf(pl.jogador)
+
         if (dataArray[pos] === undefined) {
           dataArray[pos] = {
             jogador: '',
@@ -120,7 +121,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#d1d1d1',
     paddingVertical: 15,
     marginVertical: 2,
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
+    marginHorizontal: 10
   },
   dataContainer: {
     flexDirection: 'row',
@@ -129,7 +131,8 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     paddingHorizontal: 15,
     paddingVertical: 15,
-    backgroundColor: '#e1e1e1'
+    backgroundColor: '#e1e1e1',
+    marginHorizontal: 10
   },
   playerTitle: {
     width: '40%'

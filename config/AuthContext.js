@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
     loadStorageData()
-  })
+  }, [])
 
   useEffect(() => {
     //lista de jogadores
@@ -59,7 +59,8 @@ export const AuthProvider = ({ children }) => {
           jogadoresTime2: doc.data().jogadoresTime2,
           resultado: doc.data().resultado,
           time1: doc.data().time1,
-          time2: doc.data().time2
+          time2: doc.data().time2,
+          id: doc.id
         })
       })
       //Ordenando as partidas

@@ -2,17 +2,12 @@ import React, { useState, useEffect, useContext } from 'react'
 
 import {
   View,
-  Text,
   Button,
   StyleSheet,
-  Keyboard,
   ScrollView,
   Platform,
   KeyboardAvoidingView
 } from 'react-native'
-
-import { collection, getDocs } from 'firebase/firestore'
-import db from '../config/firebase'
 
 import Login from '../components/Login'
 import NewPlayer from '../components/NewPlayer'
