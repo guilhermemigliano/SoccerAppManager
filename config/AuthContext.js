@@ -38,7 +38,12 @@ export const AuthProvider = ({ children }) => {
       const list = []
 
       querySnapshot.forEach(p => {
-        list.push({ id: p.id, jogador: p.data().jogador, tipo: p.data().tipo })
+        list.push({
+          id: p.id,
+          jogador: p.data().jogador,
+          tipo: p.data().tipo,
+          status: p.data().status
+        })
       })
 
       setListOfPlayers(list)

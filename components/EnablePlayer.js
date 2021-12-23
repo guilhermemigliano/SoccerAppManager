@@ -11,25 +11,25 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 import RNPickerSelect from 'react-native-picker-select'
 
-import { updateDoc, doc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import db from '../config/firebase'
 
 import AuthContext from '../config/AuthContext'
 
-export default function RemovePlayer() {
-  const [removePlayer, setRemovePlayer] = useState('')
+export default function EnablePlayer() {
+  const [enablePlayer, setEnablePlayer] = useState('')
   const { listOfPlayers, setPlayers } = useContext(AuthContext)
 
   async function deletePlayer() {
     try {
-      const docRef = doc(db, 'Players', removePlayer)
+      const docRef = doc(db, 'Players', enablePlayer)
 
-      await updateDoc(docRef, { status: false }).then(setPlayers())
-
-      Alert.alert(`Jogador desabilitado com sucesso!`)
-      setRemovePlayer('')
+      await updateDoc(docRef, { status: true })
+      setPlayers()
+      Alert.alert(`Jogador habilitado com sucesso!`)
+      setEnablePlayer('')
     } catch (e) {
-      Alert.alert('Erro ao desabilitar jogador')
+      Alert.alert('Erro ao habilitar jogador')
       console.error('Error updating document: ', e)
     }
   }
@@ -40,8 +40,7 @@ export default function RemovePlayer() {
     color: 'tomato'
   }
 
-  const filteredPlayers = listOfPlayers.filter(elem => elem.status == true)
-  console.log(filteredPlayers)
+  const filteredPlayers = listOfPlayers.filter(elem => elem.status == false)
 
   const playersArray = filteredPlayers.map(p => {
     const jogador = { label: '', value: '' }
@@ -52,13 +51,13 @@ export default function RemovePlayer() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Desabilitar um jogador</Text>
+      <Text style={styles.title}>Habilitar um jogador</Text>
       <View style={styles.selectContainer}>
         <RNPickerSelect
           style={pickerSelectStyles}
           placeholder={placeholder}
-          value={removePlayer}
-          onValueChange={value => setRemovePlayer(value)}
+          value={enablePlayer}
+          onValueChange={value => setEnablePlayer(value)}
           useNativeAndroidPickerStyle={false}
           //onOpen={readPlayers}
           Icon={() => {
@@ -75,12 +74,8 @@ export default function RemovePlayer() {
         />
       </View>
 
-      <Text style={styles.titleObs}>
-        ** O jogador desabilitado só será removido da lista de jogadores.
-      </Text>
-
       <TouchableOpacity style={styles.button} onPress={deletePlayer}>
-        <Text style={styles.textButton}>Desabilitar</Text>
+        <Text style={styles.textButton}>Habilitar</Text>
       </TouchableOpacity>
     </View>
   )

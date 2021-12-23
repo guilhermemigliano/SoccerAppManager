@@ -32,7 +32,8 @@ export default function NewPlayer() {
       }
       const docRef = await addDoc(collection(db, 'Players'), {
         jogador: addPlayer,
-        tipo: 'goleiro'
+        tipo: 'goleiro',
+        status: false
       })
       setPlayers()
       Alert.alert(`Jogador ${addPlayer} adicionado com sucesso!`)

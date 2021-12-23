@@ -13,6 +13,7 @@ import Login from '../components/Login'
 import NewPlayer from '../components/NewPlayer'
 import NewGoalKeeper from '../components/NewGoalKeeper'
 import RemovePlayer from '../components/RemovePlayer'
+import EnablePlayer from '../components/EnablePlayer'
 
 import AuthContext from '../config/AuthContext'
 
@@ -34,6 +35,7 @@ export default function Settings(props) {
                 <NewPlayer />
                 <NewGoalKeeper />
                 <RemovePlayer />
+                <EnablePlayer />
               </KeyboardAvoidingView>
             </ScrollView>
           </View>

@@ -19,28 +19,34 @@ export default function NewPlayer() {
   const { setPlayers, listOfPlayers } = useContext(AuthContext)
 
   async function addFirebase() {
-    if (
-      listOfPlayers.some(
-        elem => elem.jogador.toLowerCase() == addPlayer.trim().toLowerCase()
+    let playerElement = listOfPlayers.filter(
+      elem => elem.jogador.toLowerCase() == addPlayer.trim().toLowerCase()
+    )
+
+    if (playerElement[0].status == true) {
+      return Alert.alert('Esse jogador já está na lista!')
+    } else if (playerElement[0].status == false) {
+      return Alert.alert(
+        'Esse jogador está inativo. Use o campo "Ativar Jogador"!'
       )
-    ) {
-      return Alert.alert('Jogador existente!')
-    }
-    try {
-      if (addPlayer.trim() === '') {
-        return Alert.alert('Adicione o nome do jogador')
+    } else {
+      try {
+        if (addPlayer.trim() === '') {
+          return Alert.alert('Adicione o nome do jogador')
+        }
+        const docRef = await addDoc(collection(db, 'Players'), {
+          jogador: addPlayer,
+          tipo: 'linha',
+          status: true
+        })
+        setPlayers()
+        Alert.alert(`Jogador ${addPlayer} adicionado com sucesso!`)
+        setAddPlayer('')
+        //console.log('Document written with ID: ', docRef.id)
+      } catch (e) {
+        Alert.alert('Erro ao adicionar o jogador!')
+        //console.error('Error adding document: ', e)
       }
-      const docRef = await addDoc(collection(db, 'Players'), {
-        jogador: addPlayer,
-        tipo: 'linha'
-      })
-      setPlayers()
-      Alert.alert(`Jogador ${addPlayer} adicionado com sucesso!`)
-      setAddPlayer('')
-      //console.log('Document written with ID: ', docRef.id)
-    } catch (e) {
-      Alert.alert('Erro ao adicionar o jogador!')
-      //console.error('Error adding document: ', e)
     }
   }
 

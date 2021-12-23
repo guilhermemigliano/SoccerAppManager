@@ -66,11 +66,14 @@ export default function ListPlayers(props) {
     const querySnapshot = await getDocs(collection(db, 'Players'))
     const list = []
     querySnapshot.forEach(doc => {
-      list.push({
-        id: doc.id,
-        jogador: doc.data().jogador,
-        tipo: doc.data().tipo
-      })
+      if (doc.data().status === true) {
+        list.push({
+          id: doc.id,
+          jogador: doc.data().jogador,
+          tipo: doc.data().tipo
+        })
+      }
+
       //console.log(`${doc.id} => ${doc.data()}  => ${doc.data().id}`)
     })
     list.sort(function (a, b) {
