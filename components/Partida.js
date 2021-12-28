@@ -12,14 +12,11 @@ import {
 import { format } from 'date-fns'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AuthContext from '../config/AuthContext'
-import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes'
 
 const brahma = require('../assets/imgs/brahma.png')
 const skol = require('../assets//imgs/skol.png')
 const antartica = require('../assets/imgs/antartica.png')
 const heineken = require('../assets/imgs/heineken.png')
-const golFavor = require('../assets/imgs/bola.png')
-const golContra = require('../assets/imgs/bola-contra.png')
 
 const MESES = [
   'Janeiro',

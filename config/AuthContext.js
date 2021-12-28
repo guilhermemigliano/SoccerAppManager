@@ -10,6 +10,7 @@ const AuthContext = createContext({ signed: true })
 
 export const AuthProvider = ({ children }) => {
   const [isLogged, setIslogged] = useState(false)
+  const [updateData, setUpdateData] = useState(false)
   const [listOfPlayers, setListOfPlayers] = useState([])
   const [listOfMatches, setListOfMatches] = useState([])
   const [playersChanged, setPlayersChanged] = useState(false)
@@ -17,6 +18,57 @@ export const AuthProvider = ({ children }) => {
 
   const USER = 123
   const PASSWORD = 123
+
+  const loadMatches = async () => {
+    const queryMatches = await getDocs(collection(db, 'Matches'))
+    const listMatches = []
+
+    queryMatches.forEach(doc => {
+      listMatches.push({
+        date: doc.data().date.toDate(),
+        jogadoresTime1: doc.data().jogadoresTime1,
+        jogadoresTime2: doc.data().jogadoresTime2,
+        resultado: doc.data().resultado,
+        time1: doc.data().time1,
+        time2: doc.data().time2,
+        id: doc.id
+      })
+    })
+    //Ordenando as partidas
+    listMatches.sort(function (a, b) {
+      if (a.date > b.date) {
+        return 1
+      }
+      if (a.date < b.date) {
+        return -1
+      }
+      // a must be equal to b
+      return 0
+    })
+    setListOfMatches(listMatches)
+
+    //lista de jogadores
+
+    const queryPlayers = await getDocs(collection(db, 'Players'))
+    //const p = { label: '', value: '' }
+
+    const listPlayers = []
+
+    queryPlayers.forEach(p => {
+      listPlayers.push({
+        id: p.id,
+        jogador: p.data().jogador,
+        tipo: p.data().tipo,
+        status: p.data().status
+      })
+    })
+    setListOfPlayers(listPlayers)
+  }
+
+  useEffect(() => {
+    loadMatches()
+    console.log('teste')
+  }, [updateData])
 
   useEffect(() => {
     async function loadStorageData() {
@@ -29,65 +81,9 @@ export const AuthProvider = ({ children }) => {
     loadStorageData()
   }, [])
 
-  useEffect(() => {
-    //lista de jogadores
-    async function getPlayers() {
-      const querySnapshot = await getDocs(collection(db, 'Players'))
-      //const p = { label: '', value: '' }
-
-      const list = []
-
-      querySnapshot.forEach(p => {
-        list.push({
-          id: p.id,
-          jogador: p.data().jogador,
-          tipo: p.data().tipo,
-          status: p.data().status
-        })
-      })
-
-      setListOfPlayers(list)
-    }
-    getPlayers()
-  }, [playersChanged])
-
-  useEffect(() => {
-    //lista de partidas
-    async function getMatches() {
-      const querySnapshot = await getDocs(collection(db, 'Matches'))
-      const list = []
-
-      querySnapshot.forEach(doc => {
-        list.push({
-          date: doc.data().date.toDate(),
-          jogadoresTime1: doc.data().jogadoresTime1,
-          jogadoresTime2: doc.data().jogadoresTime2,
-          resultado: doc.data().resultado,
-          time1: doc.data().time1,
-          time2: doc.data().time2,
-          id: doc.id
-        })
-      })
-      //Ordenando as partidas
-      list.sort(function (a, b) {
-        if (a.date > b.date) {
-          return 1
-        }
-        if (a.date < b.date) {
-          return -1
-        }
-        // a must be equal to b
-        return 0
-      })
-
-      setListOfMatches(list)
-      //console.log(list)
-    }
-    getMatches()
-  }, [matchesChanged])
-
   const setPlayers = () => setPlayersChanged(!playersChanged)
   const setMatches = () => setMatchesChanged(!matchesChanged)
+  const setUpdate = () => setUpdateData(!updateData)
 
   async function signIn(user, password) {
     if (user == USER && password == PASSWORD) {
@@ -111,8 +107,8 @@ export const AuthProvider = ({ children }) => {
         signOut,
         listOfPlayers,
         listOfMatches,
-        setPlayers,
-        setMatches
+        setUpdate,
+        update: updateData
       }}
     >
       {children}

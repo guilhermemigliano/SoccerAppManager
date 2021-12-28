@@ -18,14 +18,14 @@ import AuthContext from '../config/AuthContext'
 
 export default function EnablePlayer() {
   const [enablePlayer, setEnablePlayer] = useState('')
-  const { listOfPlayers, setPlayers } = useContext(AuthContext)
+  const { listOfPlayers, setUpdate } = useContext(AuthContext)
 
   async function deletePlayer() {
     try {
       const docRef = doc(db, 'Players', enablePlayer)
 
       await updateDoc(docRef, { status: true })
-      setPlayers()
+      setUpdate()
       Alert.alert(`Jogador habilitado com sucesso!`)
       setEnablePlayer('')
     } catch (e) {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#e1e1e1',
     marginHorizontal: 20,
-    marginVertical: 10,
+    marginTop: 20,
     borderRadius: 10
   },
   title: {

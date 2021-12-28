@@ -7,8 +7,8 @@ import Carousel from 'react-native-snap-carousel'
 import { addDays, addMonths, isSameMonth, subDays, subMonths } from 'date-fns'
 import Partida from './Partida'
 
-export default function Card({ date, navigation }) {
-  const { listOfMatches } = useContext(AuthContext)
+export default function Card({ date, listOfMatches, navigation }) {
+  //const { listOfMatches } = useContext(AuthContext)
 
   const filteredGames = listOfMatches.filter(col => isSameMonth(col.date, date))
 

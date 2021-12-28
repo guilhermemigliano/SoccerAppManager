@@ -25,8 +25,14 @@ import Placar from '../components/Placar'
 import Jogador from '../components/Jogador'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import StopWatch from '../components/StopWatch'
+import Match from '../models/match'
 
 const image = require('../assets/imgs/campo4.jpg')
+
+Audio.setAudioModeAsync({
+  playsInSilentModeIOS: true
+  //interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
+})
 
 export default function NewMatch({ navigation }) {
   const [date, setDate] = useState(new Date())
@@ -45,7 +51,7 @@ export default function NewMatch({ navigation }) {
   const [showTimer, setShowTimer] = useState(false)
   const [sound, setSound] = React.useState()
 
-  const { setMatches } = useContext(AuthContext)
+  const { setUpdate } = useContext(AuthContext)
   //const sound = new Sound('../assets/sounds/audio.mp3')
 
   async function playSound() {
@@ -383,22 +389,23 @@ export default function NewMatch({ navigation }) {
     setDate(new Date())
     setIsDate(false)
     setShow(false)
-    setMatches() // Context para atualizar as partidas no Home
+    setUpdate()
     navigation.navigate('Home')
   }
 
   async function saveMatch() {
     try {
-      const docRef = await addDoc(collection(db, 'Matches'), {
-        time1: team1,
-        time2: team2,
-        date: date,
-        resultado: [score1, score2],
-        jogadoresTime1: playersTeam1,
-        jogadoresTime2: playersTeam2
-      })
-        .then(Alert.alert('Partida adicionada com sucesso!'))
-        .then(cancelMatch())
+      match1 = new Match(date, team1, team2, playersTeam1, playersTeam2, [
+        score1,
+        score2
+      ])
+      const docRef = await addDoc(collection(db, 'Matches'), { ...match1 })
+        .then(() => {
+          Alert.alert('Partida adicionada com sucesso!')
+        })
+        .then(() => {
+          cancelMatch()
+        })
     } catch (e) {
       Alert.alert(e)
       //console.error('Error adding document: ', e)
@@ -555,7 +562,7 @@ export default function NewMatch({ navigation }) {
         <ScrollView showsVerticalScrollIndicator={false}>
           {showTimer && (
             <StopWatch
-              totalTime={totalTime}
+              totalTime={timer}
               setMinutesUp={setMinutesUp}
               setMinutesDown={setMinutesDown}
               setSecondsUp={setSecondsUp}

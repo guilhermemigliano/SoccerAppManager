@@ -12,8 +12,6 @@ import {
 } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
-//import Sound from 'react-native-sound'
-import { Audio } from 'expo-av'
 
 import { updateDoc, doc } from 'firebase/firestore'
 import db from '../config/firebase'
@@ -24,8 +22,9 @@ import ListPlayers from '../components/ListPLayers'
 import Placar from '../components/Placar'
 import Jogador from '../components/Jogador'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import Match from '../models/match'
 
-const image = require('../assets/imgs/campo4.jpg')
+const image = require('../assets/imgs/campo5.jpg')
 
 export default function EditMatch({ route, navigation }) {
   const [date, setDate] = useState(new Date())
@@ -39,7 +38,8 @@ export default function EditMatch({ route, navigation }) {
   const [playersTeam1, setPlayersTeam1] = useState([])
   const [playersTeam2, setPlayersTeam2] = useState([])
 
-  const { setMatches, setPlayers, listOfMatches } = useContext(AuthContext)
+  const { setUpdate, setMatches, setPlayers, listOfMatches } =
+    useContext(AuthContext)
 
   const { matchId } = route.params
 
@@ -278,28 +278,31 @@ export default function EditMatch({ route, navigation }) {
     setDate(new Date())
     setIsDate(false)
     setShow(false)
-    setMatches() // Context para atualizar as partidas
-    setPlayers() // Context para atualizar os jogadores
+    setUpdate()
     navigation.navigate('Home')
   }
 
   async function saveMatch() {
     try {
+      match1 = new Match(date, team1, team2, playersTeam1, playersTeam2, [
+        score1,
+        score2
+      ])
+
       const docRef = doc(db, 'Matches', matchId)
 
       await updateDoc(docRef, {
-        time1: team1,
-        time2: team2,
-        date: date,
-        resultado: [score1, score2],
-        jogadoresTime1: playersTeam1,
-        jogadoresTime2: playersTeam2
+        ...match1
       })
-        .then(Alert.alert('Partida atualizada com sucesso!'))
-        .then(cancelMatch())
+        .then(() => {
+          Alert.alert('Partida alterada com sucesso!')
+        })
+        .then(() => {
+          cancelMatch()
+        })
     } catch (e) {
-      Alert.alert('Erro ao atualizar partida')
-      console.error('Error adding document: ', e)
+      Alert.alert(e)
+      //console.error('Error adding document: ', e)
     }
   }
 

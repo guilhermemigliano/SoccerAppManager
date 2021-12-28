@@ -18,13 +18,13 @@ import AuthContext from '../config/AuthContext'
 
 export default function RemovePlayer() {
   const [removePlayer, setRemovePlayer] = useState('')
-  const { listOfPlayers, setPlayers } = useContext(AuthContext)
+  const { listOfPlayers, setUpdate } = useContext(AuthContext)
 
   async function deletePlayer() {
     try {
       const docRef = doc(db, 'Players', removePlayer)
 
-      await updateDoc(docRef, { status: false }).then(setPlayers())
+      await updateDoc(docRef, { status: false }).then(setUpdate())
 
       Alert.alert(`Jogador desabilitado com sucesso!`)
       setRemovePlayer('')
@@ -41,7 +41,6 @@ export default function RemovePlayer() {
   }
 
   const filteredPlayers = listOfPlayers.filter(elem => elem.status == true)
-  console.log(filteredPlayers)
 
   const playersArray = filteredPlayers.map(p => {
     const jogador = { label: '', value: '' }
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#e1e1e1',
     marginHorizontal: 20,
-    marginVertical: 10,
+    marginTop: 20,
     borderRadius: 10
   },
   title: {

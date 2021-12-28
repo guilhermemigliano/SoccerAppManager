@@ -153,8 +153,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#d1d1d1',
     paddingVertical: 15,
     marginVertical: 2,
-    paddingHorizontal: 15,
-    marginHorizontal: 10
+    paddingHorizontal: 15
   },
   dataContainer: {
     flexDirection: 'row',
@@ -163,8 +162,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     paddingHorizontal: 15,
     paddingVertical: 15,
-    backgroundColor: '#e1e1e1',
-    marginHorizontal: 10
+    backgroundColor: '#e1e1e1'
   },
   playerTitle: {
     width: '40%'

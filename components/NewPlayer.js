@@ -16,20 +16,14 @@ import AuthContext from '../config/AuthContext'
 
 export default function NewPlayer() {
   const [addPlayer, setAddPlayer] = useState('')
-  const { setPlayers, listOfPlayers } = useContext(AuthContext)
+  const { setUpdate, listOfPlayers } = useContext(AuthContext)
 
   async function addFirebase() {
     let playerElement = listOfPlayers.filter(
       elem => elem.jogador.toLowerCase() == addPlayer.trim().toLowerCase()
     )
 
-    if (playerElement[0].status == true) {
-      return Alert.alert('Esse jogador já está na lista!')
-    } else if (playerElement[0].status == false) {
-      return Alert.alert(
-        'Esse jogador está inativo. Use o campo "Ativar Jogador"!'
-      )
-    } else {
+    if (playerElement.length === 0) {
       try {
         if (addPlayer.trim() === '') {
           return Alert.alert('Adicione o nome do jogador')
@@ -39,13 +33,23 @@ export default function NewPlayer() {
           tipo: 'linha',
           status: true
         })
-        setPlayers()
+        setUpdate()
         Alert.alert(`Jogador ${addPlayer} adicionado com sucesso!`)
         setAddPlayer('')
         //console.log('Document written with ID: ', docRef.id)
       } catch (e) {
         Alert.alert('Erro ao adicionar o jogador!')
         //console.error('Error adding document: ', e)
+      }
+    } else {
+      if (playerElement[0].status == true) {
+        setAddPlayer('')
+        return Alert.alert('Esse jogador já está na lista!')
+      } else {
+        setAddPlayer('')
+        return Alert.alert(
+          'Esse jogador está inativo. Use o campo "Ativar Jogador"!'
+        )
       }
     }
   }
@@ -72,7 +76,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#e1e1e1',
     marginHorizontal: 20,
-    marginVertical: 20,
+    marginTop: 30,
     borderRadius: 10
   },
   title: {
