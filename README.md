@@ -1,2 +1,4 @@
-# SoccerAppManager
-Aplicativo para gerenciar suas partidas de futebol.
+# SoccerApp Manager
+Aplicativo para gerenciar partidas de futebol entre amigos.
+
+##Funcionalidades
