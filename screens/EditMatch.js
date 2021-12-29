@@ -13,7 +13,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons'
 
-import { updateDoc, doc } from 'firebase/firestore'
+import { updateDoc, deleteDoc, doc } from 'firebase/firestore'
 import db from '../config/firebase'
 
 import AuthContext from '../config/AuthContext'
@@ -344,6 +344,38 @@ export default function EditMatch({ route, navigation }) {
     )
   }
 
+  const deleteMatchAlert = () => {
+    Alert.alert('Excluir partida', 'Tem certeza que deseja excluir?', [
+      {
+        text: 'Cancelar',
+        onPress: () => false,
+        style: 'cancel'
+      },
+      {
+        text: 'Confirmar',
+        onPress: () => {
+          deleteMatch()
+        }
+      }
+    ])
+  }
+
+  async function deleteMatch() {
+    console.log(matchId)
+    try {
+      await deleteDoc(doc(db, 'Matches', matchId))
+        .then(() => {
+          Alert.alert('Partida excluída!')
+        })
+        .then(() => {
+          cancelMatch()
+        })
+    } catch (e) {
+      Alert.alert('Ops.. ocorreu um erro ao excluir!')
+      console.error('Error deleting document: ', e)
+    }
+  }
+
   const setDateModal = () => {
     setShow(!show)
     setIsDate(true)
@@ -401,6 +433,12 @@ export default function EditMatch({ route, navigation }) {
                 />
               </View>
             )}
+            <TouchableOpacity
+              style={styles.buttonMenu}
+              onPress={deleteMatchAlert}
+            >
+              <Ionicons name="md-trash-bin" size={20} color="white" />
+            </TouchableOpacity>
           </View>
         </View>
 
