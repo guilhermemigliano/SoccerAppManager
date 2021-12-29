@@ -6,7 +6,8 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Platform
 } from 'react-native'
 
 import { format } from 'date-fns'
@@ -97,7 +98,9 @@ export default function Partida({
         <View style={styles.scoreContainer}>
           <Text style={styles.matchResult}>{resultado[0]}</Text>
         </View>
-        <Text style={styles.matchResult}> : </Text>
+        <View style={styles.scoreContainer}>
+          <Text style={styles.matchResult}> : </Text>
+        </View>
         <View style={styles.scoreContainer}>
           <Text style={styles.matchResult}>{resultado[1]}</Text>
         </View>
@@ -228,56 +231,32 @@ const styles = StyleSheet.create({
   container: {
     //backgroundColor: 'rgba(220, 227, 215, 0.9)',
     flex: 1,
-
     marginVertical: 10,
     padding: 0,
     borderRadius: 30
   },
   matchContent: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(242, 242, 242, 1)',
     borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    height: 85,
+    elevation: 10,
     shadowColor: 'black',
     shadowOffset: { width: 4, height: 2 },
     shadowRadius: 2,
-    shadowOpacity: 0.2,
-    elevation: 10
+    shadowOpacity: 0.2
   },
   teamLogo: {
-    backgroundColor: 'white',
-    borderRadius: 100,
-    width: 75,
-    height: 75,
     alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 2,
-    shadowOpacity: 0.2,
-    elevation: 10,
-    marginVertical: 10,
-    marginHorizontal: 10
+    justifyContent: 'center'
   },
   logo: {
     width: 70,
     height: 70
   },
-  scoreContainer: {
-    alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    justifyContent: 'center',
-    flex: 0,
-    //backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 2,
-    shadowOpacity: 0.2,
-    elevation: 10
-  },
+  scoreContainer: { alignItems: 'center', justifyContent: 'center' },
   teamsContainer: {
     flex: 1,
     //backgroundColor: 'grey',
@@ -300,7 +279,7 @@ const styles = StyleSheet.create({
   },
 
   playersContainer: {
-    backgroundColor: 'rgba(242, 242, 242, 0.8)',
+    backgroundColor: 'rgba(242, 242, 242, 0.9)',
     flex: 1,
     marginVertical: 10,
     borderRadius: 20,
