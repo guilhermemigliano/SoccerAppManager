@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  ActivityIndicator
-} from 'react-native'
+import { View, Text, StyleSheet, ImageBackground, Animated } from 'react-native'
 
 import { StatusBar } from 'expo-status-bar'
 import MonthPicker from '../components/MonthPicker'
@@ -22,6 +16,7 @@ import AuthContext from '../config/AuthContext'
 export default function Home({ navigation }) {
   const [date, setDate] = useState(new Date())
   const [matches, setMatches] = useState([])
+  const [fadeAnim] = useState(new Animated.Value(0))
 
   const { setUpdate } = useContext(AuthContext)
 
@@ -58,7 +53,13 @@ export default function Home({ navigation }) {
   }
 
   useEffect(() => {
-    getMatches()
+    getMatches().then(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true
+      }).start()
+    })
   }, [])
 
   useEffect(() => {
@@ -76,7 +77,9 @@ export default function Home({ navigation }) {
       <StatusBar hidden style="light" backgroundColor="#31343b" />
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <MonthPicker date={date} onChange={newDate => setDate(newDate)} />
-        <Card date={date} navigation={navigation} listOfMatches={matches} />
+        <Animated.View style={{ opacity: fadeAnim, flex: 1 }}>
+          <Card date={date} navigation={navigation} listOfMatches={matches} />
+        </Animated.View>
       </ImageBackground>
     </View>
   )

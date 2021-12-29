@@ -253,8 +253,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   logo: {
-    width: 70,
-    height: 70
+    width: 60,
+    height: 60
   },
   scoreContainer: { alignItems: 'center', justifyContent: 'center' },
   teamsContainer: {
