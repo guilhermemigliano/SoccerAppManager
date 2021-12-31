@@ -123,6 +123,10 @@ Altera as ``const`` para o valor que desejar
 
 ## Gif (Demonstração do aplicativo)
 
+Adicionando um jogador           |  Selecionando jogadores de uma partida | Adicionando gols na partida | Criando uma partida          
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/guilhermemigliano/SoccerAppManager/blob/main/assets/gifs/gif1.gif?raw=true)  |  ![](https://github.com/guilhermemigliano/SoccerAppManager/blob/main/assets/gifs/gif2.gif?raw=trueg) | ![](https://github.com/guilhermemigliano/SoccerAppManager/blob/main/assets/gifs/gif3.gif?raw=true) |![](https://github.com/guilhermemigliano/SoccerAppManager/blob/main/assets/gifs/gif4.gif?raw=true)
+
 <img src="https://github.com/guilhermemigliano/SoccerAppManager/blob/main/assets/gifs/gif1.gif?raw=true" width="300" height="649" />
 <img src="https://github.com/guilhermemigliano/SoccerAppManager/blob/main/assets/gifs/gif2.gif?raw=true" width="300" height="649" />
 <img src="https://github.com/guilhermemigliano/SoccerAppManager/blob/main/assets/gifs/gif3.gif?raw=true" width="300" height="649" />
