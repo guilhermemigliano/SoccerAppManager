@@ -15,6 +15,29 @@ export default function Card({ date, listOfMatches, navigation }) {
   const SLIDER_WIDTH = Dimensions.get('window').width
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8)
 
+  if (filteredGames.length === 0) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginHorizontal: 30
+        }}
+      >
+        <Text
+          style={{
+            backgroundColor: 'rgba(256, 256, 256, 0.9)',
+            padding: 10,
+            textAlign: 'center'
+          }}
+        >
+          Crie uma nova partida clicando no ícone de + no canto superior direito
+        </Text>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <Carousel

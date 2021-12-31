@@ -2,7 +2,9 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 
-const firebaseApp = initializeApp({})
+const firebaseConfig = {}
+
+const firebaseApp = initializeApp(firebaseConfig)
 
 const db = getFirestore()
 

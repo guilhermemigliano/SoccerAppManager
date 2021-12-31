@@ -23,8 +23,10 @@ export default function Home({ navigation }) {
   async function getMatches() {
     const queryMatches = await getDocs(collection(db, 'Matches')).then(data => {
       const listMatches = []
-
       data.forEach(doc => {
+        if (!doc.data().date) {
+          return
+        }
         listMatches.push({
           date: doc.data().date.toDate(),
           jogadoresTime1: doc.data().jogadoresTime1,
@@ -48,7 +50,7 @@ export default function Home({ navigation }) {
         return 0
       })
       setMatches(listMatches)
-      setUpdate()
+      //setUpdate()
     })
   }
 

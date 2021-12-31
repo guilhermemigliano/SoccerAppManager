@@ -67,7 +67,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     loadMatches()
-    console.log('teste')
   }, [updateData])
 
   useEffect(() => {
