@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "FDK",
+    "name": "SoccerApp Manager",
     "description": "Gerenciador de partidas de futebol",
-    "slug": "fdk-app",
+    "slug": "soccer-app",
     "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
