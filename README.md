@@ -123,4 +123,4 @@ Altera as ``const`` para o valor que desejar
 
 ## Gif (Demonstração do aplicativo)
 
-
+<img src="https://github.com/guilhermemigliano/SoccerAppManager/blob/main/assets/gifs/gif1.gif?raw=true" width="600" height="900" />
