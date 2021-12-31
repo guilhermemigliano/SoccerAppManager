@@ -32,7 +32,7 @@ export default function Card({ date, listOfMatches, navigation }) {
             textAlign: 'center'
           }}
         >
-          Crie uma nova partida clicando no ícone de + no canto superior direito
+          Este mês não possui partidas!
         </Text>
       </View>
     )
