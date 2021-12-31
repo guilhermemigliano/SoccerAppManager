@@ -93,7 +93,11 @@ export default function Partida({
 
       <View style={styles.matchContent}>
         <View style={styles.teamLogo}>
-          <Image style={styles.logo} source={time(time1)} />
+          <Image
+            style={styles.logo}
+            source={time(time1)}
+            resizeMode="contain"
+          />
         </View>
         <View style={styles.scoreContainer}>
           <Text style={styles.matchResult}>{resultado[0]}</Text>
@@ -105,7 +109,11 @@ export default function Partida({
           <Text style={styles.matchResult}>{resultado[1]}</Text>
         </View>
         <View style={styles.teamLogo}>
-          <Image style={styles.logo} source={time(time2)} />
+          <Image
+            style={styles.logo}
+            source={time(time2)}
+            resizeMode="contain"
+          />
         </View>
       </View>
 
@@ -250,7 +258,8 @@ const styles = StyleSheet.create({
   },
   teamLogo: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingVertical: 3
   },
   logo: {
     width: 60,
